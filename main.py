@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 
 from lib.helpers.conn_manager import ConnectionManager
-from lib.controllers.chat import chatRouter
+from lib.controllers.chat import chat_router
 
 from decouple import config
 
@@ -29,10 +29,9 @@ def before_all():
 
     client = MongoClient(mongo_uri)
     print(client.list_database_names())
-    print("vida")
 
 
-app.include_router(router=chatRouter, prefix="/chat")
+app.include_router(router=chat_router, prefix="/chat")
 
 html = """
 <!DOCTYPE html>
