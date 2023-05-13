@@ -39,8 +39,6 @@ class ConnectionManeger2:
 
     async def broadcast(self, room_id: str, message: Message):
         if room_id in self.active_connections:
-            # for connection in self.active_connections[room_id]:
-            #     await connection.websocket.send_json(message.dict())
             tasks = [
                 conn.websocket.send_json(message.dict())
                 for conn in self.active_connections[room_id]

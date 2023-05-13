@@ -30,9 +30,7 @@ async def websocket_endpoint(
             message = Message(text=data, username=user_id, chat_id=room_id)
             print(message)
             await conn_manager.broadcast(room_id, message)
-            # messsage_service.create(
-
-            # )
-    except (WebSocketDisconnect, WebSocketException) as e:
+            await messsage_service.create(message)
+    except (WebSocketDisconnect, WebSocketException):
         await conn_manager.disconect(room_id, user_id)
         print(conn_manager.active_connections)
