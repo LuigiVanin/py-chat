@@ -1,19 +1,38 @@
-from fastapi import APIRouter, WebSocket, Depends
-from lib.setup import get_connection_manager
+from fastapi import (
+    APIRouter,
+    WebSocket,
+    Depends,
+    WebSocketDisconnect,
+    WebSocketException,
+)
+from lib.setup import get_conn_manager, get_service_message
+from lib.helpers.conn_manager import ConnectionManeger2 as ConnectionManeger
+from lib.services.message import MessageService
+from lib.schemas.messages import Message
 
 chat_room_router = APIRouter()
 
 
-@chat_room_router.websocket("/{chat_id}/{user_name}")
+@chat_room_router.websocket("/{room_id}/{user_id}")
 async def websocket_endpoint(
-    chat_id: str,
-    user_name: str,
+    room_id: str,
+    user_id: str,
     websocket: WebSocket,
-    connection_manager=Depends(get_connection_manager),
+    conn_manager: ConnectionManeger = Depends(get_conn_manager),
+    messsage_service: MessageService = Depends(get_service_message),
 ):
-    await connection_manager.connect(websocket)
+    await conn_manager.connect(websocket, room_id, user_id)
+    print(conn_manager.active_connections)
 
-    while True:
-        data = await websocket.receive_text()
-        print(data)
-        await connection_manager.broadcast(data)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            message = Message(text=data, username=user_id, chat_id=room_id)
+            print(message)
+            await conn_manager.broadcast(room_id, message)
+            # messsage_service.create(
+
+            # )
+    except (WebSocketDisconnect, WebSocketException) as e:
+        await conn_manager.disconect(room_id, user_id)
+        print(conn_manager.active_connections)

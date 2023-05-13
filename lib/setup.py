@@ -6,7 +6,7 @@ from lib.services.chat import ChatServices
 from lib.services.message import MessageService
 from fastapi import Depends
 
-from lib.helpers.conn_manager import ConnectionManager
+from lib.helpers.conn_manager import ConnectionManeger2
 
 
 def get_db():
@@ -34,8 +34,8 @@ def get_service_message(db: Database = Depends(get_db)):
         print(e)
 
 
-connection_manager = ConnectionManager()
+conn_manager = ConnectionManeger2()
 
 
-def get_connection_manager():
-    return connection_manager
+def get_conn_manager():
+    return conn_manager
