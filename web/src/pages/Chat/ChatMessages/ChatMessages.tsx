@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 type Props = {
@@ -6,6 +7,10 @@ type Props = {
 
 export const ChatMessages = () => {
     const params = useParams<Props>();
+    console.log("New shit", params.roomId);
+    useEffect(() => {
+        console.log(params.roomId);
+    }, [params.roomId]);
 
     return (
         <div>

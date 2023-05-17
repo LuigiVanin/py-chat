@@ -18,24 +18,23 @@ class ConnectionManeger2:
         for room in rooms:
             self.add_room(room)
 
-    async def connect(self, websocket: WebSocket, room_id: str, user_id: str):
+    async def accept(self, websocket: WebSocket):
         await websocket.accept()
+
+    async def connect(self, websocket: WebSocket, room_id: str, user_id: str):
         if room_id in self.active_connections:
-            print("alow")
             node = WebSocketNode(user_id, websocket)
             self.active_connections[room_id].append(node)
 
-    async def disconect(self, room_id: str, user_id: str):
+    async def disconnect(self, room_id: str, user_id: str):
         if room_id in self.active_connections:
-            # Close connection
-            # for connection in self.active_connections[room_id]:
-            #     if user_id == connection.id:
-            #         await connection.websocket.close()
-            #         break
-            # Filter operation on top active_connection room array
             self.active_connections[room_id] = [
                 conn for conn in self.active_connections[room_id] if conn.id != user_id
             ]
+
+    async def disconnect_all(self, user_id: str):
+        for room_id in self.active_connections:
+            await self.disconnect(room_id, user_id)
 
     async def broadcast(self, room_id: str, message: Message):
         if room_id in self.active_connections:

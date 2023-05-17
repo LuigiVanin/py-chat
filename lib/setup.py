@@ -7,6 +7,7 @@ from lib.services.message import MessageService
 from fastapi import Depends
 
 from lib.helpers.conn_manager import ConnectionManeger2
+from lib.helpers.message_handler import MessageHandler
 
 
 def get_db():
@@ -39,3 +40,10 @@ conn_manager = ConnectionManeger2()
 
 def get_conn_manager():
     return conn_manager
+
+
+def get_message_handler(
+    message_service: MessageService = Depends(get_service_message),
+    conn_manager: ConnectionManeger2 = Depends(get_conn_manager),
+):
+    return MessageHandler(conn_manager=conn_manager, message_service=message_service)
