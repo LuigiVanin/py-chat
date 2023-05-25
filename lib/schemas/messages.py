@@ -2,16 +2,41 @@ from pydantic import BaseModel, Field
 from typing import Optional, Union, Literal
 
 
-class Message(BaseModel):
+class MessageBase(BaseModel):
     text: str = Field(..., min_length=1, max_length=500)
     username: str = Field(..., min_length=1, max_length=500)
     user_avatar: Optional[str] = None
+
+
+class Message(MessageBase):
+    type: Union[
+        Literal["status.message"],
+        Literal["status.disconnect"],
+        Literal["status.connect"],
+    ] = Field(default="status.message")
     chat_id: Optional[str] = None
+
+
+class MessageFactory:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def create_connect_message(Payload) -> Message:
+        pass
+
+    @staticmethod
+    def create_disconnect_message(Payload) -> Message:
+        pass
+
+    @staticmethod
+    def create_message(Payload) -> Message:
+        pass
 
 
 # TODO: adicionar Validacao adequeado de acordo com pydantic
 class Payload(BaseModel):
-    content: str
+    content: Union[str, MessageBase]
     room_id: str
     type: Union[
         Literal["websocket.connect"],

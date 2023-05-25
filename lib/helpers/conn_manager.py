@@ -7,7 +7,7 @@ from lib.schemas.messages import Message
 import asyncio as future
 
 
-class ConnectionManeger2:
+class ConnectionManeger:
     def __init__(self):
         self.active_connections: Dict[str, List[WebSocketNode]] = {}
 
