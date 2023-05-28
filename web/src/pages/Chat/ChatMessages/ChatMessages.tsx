@@ -7,16 +7,9 @@ type Props = {
 
 export const ChatMessages = () => {
     const params = useParams<Props>();
-    console.log("New shit", params.roomId);
     useEffect(() => {
         console.log(params.roomId);
     }, [params.roomId]);
 
-    return (
-        <div>
-            <h1>{params.roomId}</h1>
-            <Link to={`/chat/${params.roomId + "a"}`}> next </Link>
-            <Link to={`/`}> back </Link>
-        </div>
-    );
+    return <div>aaa</div>;
 };
