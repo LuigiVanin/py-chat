@@ -17,27 +17,11 @@ class Message(MessageBase):
     chat_id: Optional[str] = None
 
 
-class MessageFactory:
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def create_connect_message(Payload) -> Message:
-        pass
-
-    @staticmethod
-    def create_disconnect_message(Payload) -> Message:
-        pass
-
-    @staticmethod
-    def create_message(Payload) -> Message:
-        pass
-
-
 # TODO: adicionar Validacao adequeado de acordo com pydantic
 class Payload(BaseModel):
     content: Union[str, MessageBase]
     room_id: str
+    user_id: str
     type: Union[
         Literal["websocket.connect"],
         Literal["websocket.disconnect"],
