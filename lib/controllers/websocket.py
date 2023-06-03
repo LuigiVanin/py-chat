@@ -7,7 +7,7 @@ from fastapi import (
     Header,
 )
 from lib.setup import get_conn_manager, get_service_message, get_message_handler
-from lib.helpers.conn_manager import ConnectionManeger
+from lib.helpers.conn_manager import ConnectionManager
 from lib.helpers.message_handler import MessageHandler
 from lib.services.message import MessageService
 from lib.schemas.messages import Message, Payload
@@ -21,7 +21,7 @@ chat_room_router = APIRouter()
 @chat_room_router.websocket("/")
 async def websocket_endpoint(
     websocket: WebSocket,
-    conn_manager: ConnectionManeger = Depends(get_conn_manager),
+    conn_manager: ConnectionManager = Depends(get_conn_manager),
     messsage_service: MessageService = Depends(get_service_message),
     message_handler: MessageHandler = Depends(get_message_handler),
     user_id: Union[str, None] = Header(default=None),

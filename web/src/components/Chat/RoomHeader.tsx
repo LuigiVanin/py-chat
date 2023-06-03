@@ -4,7 +4,7 @@ export const RoomHeader = () => {
     return (
         <div className="w-full h-16 bg-white flex flex-row items-center gap-4 px-4 border-b-[1px] border-gray-150">
             <div className="flex flex-row items-center gap-3">
-                <div className=" w-12 h-12 bg-orange-500 rounded-full"></div>
+                <div className=" w-12 h-12 rounded-full bg-gradient-to-tr  from-indigo-500 via-purple-500 to-pink-500"></div>
                 <div className="flex flex-col">
                     <h4 className="line-clamp-1 text-ellipsis text-black font-semibold">
                         Room Name
@@ -38,7 +38,7 @@ interface UserCounterProps {
 
 export const UserCounter: React.FC<UserCounterProps> = ({ quantity }) => {
     return (
-        <div className="flex flex-row items-center gap-2 bg-violet-200 px-3 rounded-full py-[2px]">
+        <div className="flex flex-row items-center gap-2 bg-purple-300 px-3 rounded-full py-[2px]">
             <span>
                 <svg
                     width="22"

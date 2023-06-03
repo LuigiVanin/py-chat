@@ -7,7 +7,7 @@ from lib.schemas.messages import Message
 import asyncio as future
 
 
-class ConnectionManeger:
+class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[str, List[WebSocketNode]] = {}
 
@@ -17,6 +17,11 @@ class ConnectionManeger:
     def add_rooms(self, rooms: List[str]):
         for room in rooms:
             self.add_room(room)
+
+    def connected_users_len(self, room_id: str) -> int:
+        if room_id in self.active_connections:
+            return len(self.active_connections[room_id])
+        return 0
 
     async def accept(self, websocket: WebSocket):
         await websocket.accept()

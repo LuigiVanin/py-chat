@@ -19,11 +19,17 @@ export const Avatar: React.FC<Props> = ({
         medium: "h-12 w-12 min-w-[3rem]",
         large: "h-16 w-16 min-w-[4rem]",
     };
+
+    const isGradient = (url: string) => {
+        return /$gradient-[0-9]^/;
+    };
     return (
         <div
-            className={`flex items-center justify-center   bg-orange-500 ${
+            className={`flex items-center justify-center  ${
                 rounded ? "rounded-full" : "rounded"
-            } ${sizeTable[size] || sizeTable.medium}`}
+            } ${sizeTable[size] || sizeTable.medium} ${
+                isGradient(src) ? src : "bg-orange-500"
+            }`}
         ></div>
     );
 };

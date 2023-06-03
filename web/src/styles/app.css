@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Special Font";
+    src: url("/fonts/Neo\ Robotix.ttf");
+}
+
 #root {
     width: 100%;
     min-height: 100vh;
@@ -13,8 +18,19 @@
     font-weight: 500;
 }
 
+.my-popover-button {
+}
+
+.my-popover-button:focus-visible {
+    outline: none !important;
+}
+
 h3.special-text-gradiente {
     /* background: linear-gradient(229.71deg, #e339ff 0%, #9543ee 92.14%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; */
+}
+
+h1.special-font {
+    font-family: "Special Font";
 }

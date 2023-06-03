@@ -14,14 +14,15 @@ class Message(MessageBase):
         Literal["status.disconnect"],
         Literal["status.connect"],
     ] = Field(default="status.message")
-    chat_id: Optional[str] = None
+    room_id: Optional[str] = None
+    user_id: str
 
 
 # TODO: adicionar Validacao adequeado de acordo com pydantic
 class Payload(BaseModel):
     content: Union[str, MessageBase]
     room_id: str
-    user_id: str
+    username: str
     type: Union[
         Literal["websocket.connect"],
         Literal["websocket.disconnect"],

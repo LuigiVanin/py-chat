@@ -1,30 +1,33 @@
-from lib.helpers.message import Message, Payload
+from lib.schemas.messages import Message, Payload
 
 
 class MessageFactory:
-    def create_connect_message(payload: Payload, users_connected: int) -> Message:
+    def create_connect_message(
+        self, payload: Payload, users_connected: int, user_id: str
+    ) -> Message:
         return Message(
-            username=Payload.username,
-            user_avatar=Payload.user_avatar,
+            username=payload.username,
+            user_id=user_id,
             text=str(users_connected),
-            type="websocket.connect",
-            chat_id=Payload.room_id,
+            type="status.connect",
+            room_id=payload.room_id,
         )
 
-    def create_disconnect_message(Payload) -> Message:
+    def create_disconnect_message(self, payload: Payload, user_id: str) -> Message:
         return Message(
-            username=Payload.username,
-            user_avatar=Payload.user_avatar,
-            text="disconnect",
-            type="websocket.disconnect",
-            chat_id=Payload.room_id,
+            text="DISCONNECT",
+            username=payload.username,
+            user_id=user_id,
+            room_id=payload.room_id,
+            type="status.disconnect",
         )
 
-    def create_text_message(payload: Payload) -> Message:
+    def create_text_message(self, payload: Payload, user_id: str) -> Message:
         return Message(
-            username=Payload.username,
-            user_avatar=Payload.user_avatar,
+            username=payload.content.username,
+            user_id=user_id,
+            user_avatar=payload.content.user_avatar,
             text=payload.content.text,
-            type="websocket.message",
-            chat_id=Payload.room_id,
+            type="status.message",
+            room_id=payload.room_id,
         )
