@@ -1,6 +1,7 @@
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { Avatar } from "../../components/Avatar";
+import { AvatarPicker } from "./AvatarPicker";
 
 export const AvatarInput = () => {
     const [userAvatar, setUserAvatar] = useState("gradient-1");
@@ -11,10 +12,10 @@ export const AvatarInput = () => {
                 className={`flex py-2 items-center transition-all duration-500 cursor-pointer my-popover-button border-black focus-visible:border-violet-500 shadow-md focus-visible:shadow-violet-300 w-full border-2 px-2 gap-2 rounded-md`}
             >
                 <>
-                    <div className="outline-2 outline-offset-1 outline-violet-500 outline rounded-sm">
+                    <div className="outline-2 outline-offset-1 outline-violet-500 outline rounded-sm [aria-expanded=true]:">
                         <Avatar src={userAvatar} size="small" />
                     </div>
-                    <div className=" w-full text-left border-none outline-none text-lg">
+                    <div className=" w-full text-left border-none outline-none text-lg text-ellipsis overflow-hidden line-clamp-1">
                         {userAvatar}
                     </div>
                     <svg
@@ -42,8 +43,11 @@ export const AvatarInput = () => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
             >
-                <Popover.Panel className="absolute left-0 z-10 mt-3 w-full h-24 shadow-xl rounded-md border-[1px] border-solid border-gray-200 bg-white">
-                    <div className=""></div>
+                <Popover.Panel className="absolute left-0 z-10 mt-3 w-full h-auto shadow-xl rounded-md border-[1px] border-solid border-gray-200 bg-white">
+                    <AvatarPicker
+                        avatar={userAvatar}
+                        setAvatar={setUserAvatar}
+                    />
                 </Popover.Panel>
             </Transition>
         </Popover>
