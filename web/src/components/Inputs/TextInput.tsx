@@ -5,6 +5,7 @@ interface TextInputProps {
     setValue: (value: string) => void;
     placeholder?: string;
     Icon?: ReactNode;
+    error?: boolean;
 }
 
 const IconPlaceholder: React.FC = () => (
@@ -28,6 +29,7 @@ export const TextInput: React.FC<TextInputProps> = ({
     value,
     setValue,
     placeholder = "Escreva...",
+    error = false,
     Icon = <IconPlaceholder />,
 }) => {
     const [focus, setFocus] = useState(false);
@@ -39,7 +41,9 @@ export const TextInput: React.FC<TextInputProps> = ({
                         focus
                             ? "border-violet-500 shadow-md shadow-violet-300"
                             : "border-black"
-                    } border-2 px-2 gap-2 rounded-md`}
+                    }
+                    ${error ? "border-red-400 shadow-md shadow-red-200" : ""}
+                    border-2 px-2 gap-2 rounded-md`}
         >
             {Icon}
             <input

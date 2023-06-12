@@ -11,7 +11,7 @@ const initialState: UserState = {
 };
 
 export const userSlice = createSlice({
-    name: "messages",
+    name: "user",
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
@@ -19,11 +19,23 @@ export const userSlice = createSlice({
             state.username = action.payload.username;
             state.id = action.payload.id;
             state.avatar = action.payload.avatar;
+            console.log("Inside store", action.payload);
 
-            storage.user = action.payload;
+            storage.setUser(action.payload);
+
+            console.log(state.username, state.id); // <-- The console show the data as existed;
+        },
+        fetchUser: (state) => {
+            const storage = new UserLocalStorage();
+            const user = storage.getUser();
+            if (user) {
+                state.username = user.username;
+                state.id = user.id;
+                state.avatar = user.avatar;
+            }
         },
     },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, fetchUser } = userSlice.actions;
 export default userSlice.reducer;

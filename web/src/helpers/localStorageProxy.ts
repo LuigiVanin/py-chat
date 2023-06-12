@@ -33,11 +33,11 @@ export class UserLocalStorage extends SerializedLocalStorage<User> {
         super();
     }
 
-    get user(): User | void {
+    getUser(): User | void {
         return this.getItem(UserLocalStorage.localStorageKey);
     }
 
-    set user(user: User | void) {
+    setUser(user: User | void) {
         if (!user) {
             return;
         }

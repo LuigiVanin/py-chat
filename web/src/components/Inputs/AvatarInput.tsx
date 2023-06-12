@@ -1,10 +1,18 @@
 import { Popover, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Avatar } from "../../components/Avatar";
 import { AvatarPicker } from "./AvatarPicker";
 
-export const AvatarInput = () => {
-    const [userAvatar, setUserAvatar] = useState("gradient-1");
+interface AvatarInputProps {
+    avatar: string;
+    setAvatar: (avatar: string) => void;
+}
+
+export const AvatarInput: React.FC<AvatarInputProps> = ({
+    avatar,
+    setAvatar,
+}) => {
+    // const [userAvatar, setUserAvatar] = useState("gradient-1");
 
     return (
         <Popover className="relative">
@@ -13,10 +21,10 @@ export const AvatarInput = () => {
             >
                 <>
                     <div className="outline-2 outline-offset-1 outline-violet-500 outline rounded-sm [aria-expanded=true]:">
-                        <Avatar src={userAvatar} size="small" />
+                        <Avatar src={avatar} size="small" />
                     </div>
                     <div className=" w-full text-left border-none outline-none text-lg text-ellipsis overflow-hidden line-clamp-1">
-                        {userAvatar}
+                        {avatar}
                     </div>
                     <svg
                         width="20"
@@ -44,10 +52,7 @@ export const AvatarInput = () => {
                 leaveTo="opacity-0 translate-y-1"
             >
                 <Popover.Panel className="absolute left-0 z-10 mt-3 w-full h-auto shadow-xl rounded-md border-[1px] border-solid border-gray-200 bg-white">
-                    <AvatarPicker
-                        avatar={userAvatar}
-                        setAvatar={setUserAvatar}
-                    />
+                    <AvatarPicker avatar={avatar} setAvatar={setAvatar} />
                 </Popover.Panel>
             </Transition>
         </Popover>

@@ -1,20 +1,24 @@
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { Avatar } from "../Avatar";
 import { useAppSelector } from "../../hooks";
 import { InnerRoom } from "../../types/chat";
 
 interface Props {
     loading: boolean;
+    connect: (roomId: string) => void;
+    disconnect: (roomId: string) => void;
 }
 
-export const Sidebar: React.FC<Props> = ({ loading }) => {
+export const Sidebar: React.FC<Props> = ({ loading, connect, disconnect }) => {
+    const { avatar } = useAppSelector((state) => state.user);
+
     return (
         <aside className="min-w-[250px] max-w-[400px] w-[35%] bg-white drop-shadow-md flex flex-col">
             <header
                 className="w-full h-16 flex flex-row px-3 items-center gap-3 border-b-[1px] border-gray-150  z-10"
                 style={{ boxShadow: "-10px 0px 15px #20202082 " }}
             >
-                <Avatar src={"gradient-1"} size="medium" />
+                <Avatar src={avatar || "gradient-1"} size="medium" />
                 <div className="">
                     <h4 className="font-semibold line-clamp-1 text-ellipsis">
                         O nome do Infeliz
@@ -36,15 +40,24 @@ export const Sidebar: React.FC<Props> = ({ loading }) => {
                     </svg>
                 </button>
             </header>
-            <div className="main-content w-full flex-1 flex flex-col items-center gap-3">
-                <RoomsList loading={loading} />
+            <div className="main-content w-full flex-1 flex flex-col items-center">
+                <RoomsList
+                    loading={loading}
+                    connect={connect}
+                    disconnect={disconnect}
+                />
             </div>
         </aside>
     );
 };
 
-export const RoomsList: React.FC<Props> = ({ loading }) => {
+export const RoomsList: React.FC<Props> = ({
+    loading,
+    connect,
+    disconnect,
+}) => {
     const { rooms } = useAppSelector((state) => state.room);
+
     const disconnectedRooms = useMemo(() => {
         return rooms?.filter((room) => !room.connected);
     }, [rooms]);
@@ -87,33 +100,37 @@ export const RoomsList: React.FC<Props> = ({ loading }) => {
             </div>
             {!!connectedRooms && connectedRooms.length ? (
                 <>
-                    <h4 className="w-full text-lg  flex-center justify-start gap-2 px-3">
-                        <span className="h-[7px] w-[7px] bg-red-500 rounded-full mt-[1px] " />
+                    <h4 className="w-full text-lg  flex-center justify-start gap-2 px-3 pl-5 bg-green-100 text-green-500 py-2">
+                        <span className="h-[7px] w-[7px] bg-green-500 rounded-full mt-[1px] " />
                         Connected
                     </h4>
-                    <ul className="w-full px-3"></ul>
-                    {connectedRooms.map((room) => (
-                        <li key={room._id} className="w-full">
-                            <RoomItem {...room} />
-                        </li>
-                    ))}
+                    <ul className="w-full">
+                        {connectedRooms.map((room) => (
+                            <li
+                                key={room._id}
+                                className="w-full border-solid border-gray-200 border-b-[1px] first:border-t-[1px] cursor-pointer hover:bg-gray-100 px-3 "
+                            >
+                                <RoomItem {...room} strategy={disconnect} />
+                            </li>
+                        ))}
+                    </ul>
                 </>
             ) : (
                 <React.Fragment />
             )}
             {!!disconnectedRooms && disconnectedRooms.length ? (
                 <>
-                    <h4 className="w-full text-lg  flex-center justify-start gap-2 px-3 pl-5 text-md text-gray-400">
+                    <h4 className="w-full text-lg  flex-center justify-start gap-2 px-3 pl-5 text-md text-red-500 bg-red-100 py-2">
                         <span className="h-[7px] w-[7px] bg-red-500 rounded-full mt-[1px] " />
                         Disconnected
                     </h4>
-                    <ul className="w-full px-3">
+                    <ul className="w-full ">
                         {disconnectedRooms.map((room) => (
                             <li
                                 key={room._id}
-                                className="w-full border-solid border-gray-200 border-b-[1px] first:border-t-[1px] cursor-pointer hover:bg-gray-100"
+                                className="w-full border-solid border-gray-200 border-b-[1px] first:border-t-[1px] cursor-pointer hover:bg-gray-100 px-3"
                             >
-                                <RoomItem {...room} />
+                                <RoomItem {...room} strategy={connect} />
                             </li>
                         ))}
                     </ul>
@@ -127,11 +144,23 @@ export const RoomsList: React.FC<Props> = ({ loading }) => {
 
 const RoomItem: React.FC<InnerRoom & { strategy?: (id: string) => void }> = ({
     name,
+    image,
+    strategy,
+    connected,
+    _id,
 }) => {
     return (
         <div className="h-14 flex items-center gap-2">
-            <Avatar src={"gradient-1"} size="small" rounded={true} />
+            <Avatar src={image} size="small" rounded={true} />
             <h4 className="line-clamp-1 text-ellipsis">{name}</h4>
+            <button
+                onClick={() => {
+                    console.log("click", strategy);
+                    strategy && strategy(_id);
+                }}
+            >
+                {connected ? "Leave" : "Join"}
+            </button>
         </div>
     );
 };
