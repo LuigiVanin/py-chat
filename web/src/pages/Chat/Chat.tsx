@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import useWebSocket from "react-use-websocket";
 import { IncomingMessage, OutgoingMessage } from "../../types/message";
 import { editRoom } from "../../store/roomSlice";
+import { addChatMessage } from "../../store/chatSlice";
 
 export const Chat = () => {
     const { getRooms, loading } = useGetRooms();
@@ -19,6 +20,20 @@ export const Chat = () => {
             protocols: "echo-protocol",
             onMessage: (event) => {
                 const payload = JSON.parse(event.data) as IncomingMessage;
+                // TODO: improve this logic
+                dispatch(
+                    addChatMessage({
+                        chatId: payload.room_id,
+                        data: {
+                            text: payload.text,
+                            type: payload.type,
+                            user_avatar: payload.user_avatar,
+                            username: payload.username,
+                            user_id: payload.user_id,
+                            room_id: payload.room_id,
+                        },
+                    })
+                );
             },
         }
     );

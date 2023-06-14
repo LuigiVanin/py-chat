@@ -3,11 +3,11 @@ export interface Message {
 }
 
 export interface MessageState {
-    messages: Record<string, Message[]>;
+    messages: Record<string, IncomingMessage[]>;
 }
 
 export interface ChatPayload<T> {
-    chatName: string;
+    chatId: string;
     data: T;
 }
 
