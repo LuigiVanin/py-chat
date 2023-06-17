@@ -1,7 +1,7 @@
+import { generateUuid } from "./../helpers/uuid";
 import { PayloadAction as Act, createSlice } from "@reduxjs/toolkit";
 import type {
     IncomingMessage,
-    Message,
     MessageState,
     ChatPayload as Payload,
 } from "../types/message";
@@ -21,7 +21,10 @@ export const chatSlice = createSlice({
             if (!state.messages[action.payload.chatId]) {
                 state.messages[action.payload.chatId] = [];
             }
-            state.messages[action.payload.chatId].push(action.payload.data);
+            state.messages[action.payload.chatId].push({
+                ...action.payload.data,
+                messageId: generateUuid(),
+            });
         },
     },
 });

@@ -1,33 +1,59 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useAppSelector } from "../../hooks";
+import { Avatar } from "../Avatar";
+
+const useCurrentRoom = () => {
+    const { currentRoom: currentRoomId, rooms } = useAppSelector(
+        (state) => state.room
+    );
+    const currentRoom = useMemo(() => {
+        if (!currentRoomId) return null;
+
+        return rooms?.find((room) => room._id === currentRoomId) || null;
+    }, [currentRoomId, rooms]);
+
+    return currentRoom;
+};
 
 export const RoomHeader = () => {
+    const room = useCurrentRoom();
+    const { connected } = useAppSelector((state) => state.room);
+    const amount = useMemo(
+        () => (!room ? 0 : connected[room._id]),
+        [connected, room]
+    );
+
     return (
         <div className="w-full h-16 bg-white flex flex-row items-center gap-4 px-4 border-b-[1px] border-gray-150">
-            <div className="flex flex-row items-center gap-3">
-                <div className=" w-12 h-12 rounded-full bg-gradient-to-tr  from-indigo-500 via-purple-500 to-pink-500"></div>
-                <div className="flex flex-col">
-                    <h4 className="line-clamp-1 text-ellipsis text-black font-semibold">
-                        Room Name
-                    </h4>
-                    <p className="line-clamp-1 text-gray-400 text-sm leading-4">
-                        Room Description
-                    </p>
-                </div>
-            </div>
-            <UserCounter quantity={1} />
-            <button className="ml-auto w-9 h-9 hover:bg-slate-50 flex items-center justify-center rounded-full">
-                <svg
-                    width="9"
-                    height="30"
-                    viewBox="0 0 9 33"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <circle cx="3.5" cy="4" r="3.5" fill="#e5e7eb" />
-                    <circle cx="3.5" cy="16.5" r="3.5" fill="#e5e7eb" />
-                    <circle cx="3.5" cy="28.5" r="3.5" fill="#e5e7eb" />
-                </svg>
-            </button>
+            {room?._id && (
+                <>
+                    <div className="flex flex-row items-center gap-3">
+                        <Avatar src={room.image} size="medium" rounded />
+                        <div className="flex flex-col">
+                            <h4 className="line-clamp-1 text-ellipsis text-black font-semibold">
+                                {room.name}
+                            </h4>
+                            <p className="line-clamp-1 text-gray-400 text-sm leading-4">
+                                {room.description}
+                            </p>
+                        </div>
+                    </div>
+                    <UserCounter quantity={amount} />
+                    <button className="ml-auto w-9 h-9 hover:bg-slate-50 flex items-center justify-center rounded-full">
+                        <svg
+                            width="9"
+                            height="30"
+                            viewBox="0 0 9 33"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle cx="3.5" cy="4" r="3.5" fill="#e5e7eb" />
+                            <circle cx="3.5" cy="16.5" r="3.5" fill="#e5e7eb" />
+                            <circle cx="3.5" cy="28.5" r="3.5" fill="#e5e7eb" />
+                        </svg>
+                    </button>
+                </>
+            )}
         </div>
     );
 };

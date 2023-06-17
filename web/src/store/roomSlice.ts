@@ -4,7 +4,7 @@ import { PayloadAction as Act, createSlice } from "@reduxjs/toolkit";
 interface RoomState {
     rooms: InnerRoom[] | null;
     currentRoom: string | null;
-    connected: Record<string, boolean>;
+    connected: Record<string, number>;
 }
 
 const initialRoomSatate: RoomState = {
@@ -33,11 +33,19 @@ export const roomSlice = createSlice({
             );
             state.rooms[idx].connected = action.payload.status === "connect";
         },
+        editRoomMembersCount: (
+            state,
+            action: Act<{ id: string; amount: number }>
+        ) => {
+            if (!state.rooms) return;
+            state.connected[action.payload.id] = action.payload.amount;
+        },
         setCurrentRoom: (state, action: Act<string | null>) => {
             state.currentRoom = action.payload || null;
         },
     },
 });
 
-export const { setCurrentRoom, setRooms, editRoom } = roomSlice.actions;
+export const { setCurrentRoom, setRooms, editRoom, editRoomMembersCount } =
+    roomSlice.actions;
 export default roomSlice.reducer;

@@ -25,6 +25,7 @@ export interface IncomingMessage extends BaseMessage {
     type: MessageStatusFactory<"status">;
     room_id: string;
     user_id: string;
+    messageId?: string;
 }
 
 export interface OutgoingMessage {
