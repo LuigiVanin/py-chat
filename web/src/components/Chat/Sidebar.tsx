@@ -3,6 +3,8 @@ import { Avatar } from "../Avatar";
 import { useAppSelector } from "../../hooks";
 import { RoomsList } from "./Sidebar/RoomsList";
 import { SidebarProps } from "../../types/props";
+import { ThreeDotsMenu } from "../Menu/ThreeDotsMenu";
+import { UserMenu } from "../Menu/UserMenu";
 
 export const Sidebar: React.FC<SidebarProps> = ({
     loading,
@@ -29,19 +31,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </p>
                 </div>
 
-                <button className="ml-auto w-9 h-9 hover:bg-slate-50 flex items-center justify-center rounded-full">
-                    <svg
-                        width="9"
-                        height="30"
-                        viewBox="0 0 9 33"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <circle cx="3.5" cy="4" r="3.5" fill="#e5e7eb" />
-                        <circle cx="3.5" cy="16.5" r="3.5" fill="#e5e7eb" />
-                        <circle cx="3.5" cy="28.5" r="3.5" fill="#e5e7eb" />
-                    </svg>
-                </button>
+                <ThreeDotsMenu className="mt-[15px] left-[5px] w-48">
+                    <UserMenu />
+                </ThreeDotsMenu>
             </header>
             <div className="main-content w-full flex-1 flex flex-col items-center">
                 <RoomsList

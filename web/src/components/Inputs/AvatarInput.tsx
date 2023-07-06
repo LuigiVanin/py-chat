@@ -51,7 +51,7 @@ export const AvatarInput: React.FC<AvatarInputProps> = ({
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
             >
-                <Popover.Panel className="absolute left-0 z-10 mt-3 w-full h-auto shadow-xl rounded-md border-[1px] border-solid border-gray-200 bg-white">
+                <Popover.Panel className="absolute left-0 z-10 mt-3 w-full min-w-[450px] h-auto shadow-xl rounded-md border-[1px] border-solid border-gray-200 bg-white">
                     <AvatarPicker avatar={avatar} setAvatar={setAvatar} />
                 </Popover.Panel>
             </Transition>
