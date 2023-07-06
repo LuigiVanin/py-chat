@@ -23,6 +23,11 @@ export const roomSlice = createSlice({
                 connected: false,
             }));
         },
+        clearRooms: (state) => {
+            state.rooms = initialRoomSatate.rooms;
+            state.currentRoom = initialRoomSatate.currentRoom;
+            state.connected = initialRoomSatate.connected;
+        },
         editRoom: (
             state,
             action: Act<{ id: string; status: "connect" | "disconnect" }>
@@ -46,6 +51,11 @@ export const roomSlice = createSlice({
     },
 });
 
-export const { setCurrentRoom, setRooms, editRoom, editRoomMembersCount } =
-    roomSlice.actions;
+export const {
+    setCurrentRoom,
+    setRooms,
+    editRoom,
+    editRoomMembersCount,
+    clearRooms,
+} = roomSlice.actions;
 export default roomSlice.reducer;
