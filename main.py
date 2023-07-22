@@ -1,14 +1,14 @@
 from fastapi import FastAPI
-
 from fastapi.middleware.cors import CORSMiddleware
 
 from pymongo import MongoClient
 
+from decouple import config
+
 from lib.controllers.chat import chat_router
 from lib.controllers.websocket import chat_room_router
+from lib.deps import conn_manager
 
-from decouple import config
-from lib.setup import conn_manager
 
 from typing import List
 
@@ -41,3 +41,12 @@ def before_all():
 
 app.include_router(router=chat_router, prefix="/chat")
 app.include_router(router=chat_room_router, prefix="/room")
+
+if __name__ == "__main__":
+    import uvicorn
+    from lib.helpers.migration import db_init_check, init_db_with_default
+
+    print("init check: ", db_init_check())
+    init_db_with_default()
+
+    uvicorn.run(app, host="0.0.0.0", port=3000)  # noqa: S104

@@ -58,7 +58,13 @@ $ npm run dev
 
 ### Rodando usando Docker 🐳
 
-WIP 🚧
+Tendo Docker e docker-compose em seu computador, para rodar o projeto usando docker, basta executar os seguintes comandos, na raiz do projeto:
+
+```bash
+$ docker-compose up
+```
+
+_OBS.: Vale salientar que o docker é apenas para o backend do projeto, o frontend ainda deve ser rodado usando vite._
 
 ## Ferramentas Utilizadas 🛠️
 

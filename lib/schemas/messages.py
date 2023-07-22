@@ -18,7 +18,6 @@ class Message(MessageBase):
     user_id: str
 
 
-# TODO: adicionar Validacao adequeado de acordo com pydantic
 class Payload(BaseModel):
     content: Union[str, MessageBase]
     room_id: str

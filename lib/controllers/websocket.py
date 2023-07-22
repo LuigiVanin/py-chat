@@ -4,15 +4,13 @@ from fastapi import (
     Depends,
     WebSocketDisconnect,
     WebSocketException,
-    Header,
 )
-from lib.setup import get_conn_manager, get_service_message, get_message_handler
+from lib.deps import get_conn_manager, get_service_message, get_message_handler
 from lib.helpers.conn_manager import ConnectionManager
 from lib.helpers.message_handler import MessageHandler
 from lib.services.message import MessageService
 from lib.schemas.messages import Message, Payload
 from pydantic import ValidationError
-from typing import Union
 
 
 chat_room_router = APIRouter()

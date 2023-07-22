@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+    db:
+        image: mongo:5.0.8
+        container_name: db
+        ports:
+            - "5000:27017"
+        volumes:
+            - ~/mongo/data:/data/db
+        networks:
+            - app-network
+
+    app:
+        build: .
+        container_name: python_app
+        ports:
+            - 3000:3000
+        env_file: .env.prod
+        depends_on:
+            - db
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mongodb_data:

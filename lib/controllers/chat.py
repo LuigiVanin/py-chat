@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from bson.objectid import ObjectId
-from lib.setup import get_service_chat
 from lib.services.chat import ChatServices
 from lib.schemas.messages import Message
 from lib.services.message import MessageService
-from lib.setup import get_service_message
+from lib.deps import get_service_chat
+from lib.deps import get_service_message
 
 chat_router = APIRouter()
 
